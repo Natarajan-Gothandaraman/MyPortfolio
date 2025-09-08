@@ -16,7 +16,7 @@ body {
 .inner-layer {
   background: linear-gradient(180deg, #0f172a, #1e293b); /* dark gradient inside */
   border-radius: 12px;
-  padding: 2rem;
+  padding: 10rem;
   margin: 1rem auto;
   max-width: 1200px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);

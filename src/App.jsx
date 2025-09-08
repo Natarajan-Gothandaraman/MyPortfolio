@@ -78,7 +78,7 @@ function App() {
     <>
       {/* Header/Navbar */}
       <header
-        className={`fixed top-0 left-0 text-white p-6 lg:px-0 z-10 w-full transition-colors duration-100 ${
+        className={`fixed top-6 left-0 text-white p-3.1 lg:px-0 z-10 w-full transition-colors duration-100 ${
           isScrolled ? "bg-[#4949495c]" : "bg-transparent"
         }`}
       >
