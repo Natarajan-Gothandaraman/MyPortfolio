@@ -3,169 +3,95 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import emailjs from "emailjs-com";
-import "../index.css"; // Make sure CSS animations are loaded
 
 export default function Contact() {
-    const [responseMessage, setResponseMessage] = useState("");
-    const [inputValues, setInputValues] = useState({
+    const [response, setResponse] = useState({ message: "", isError: false });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formValues, setFormValues] = useState({
         name: "",
         email: "",
         message: "",
     });
 
-    const handleInputValues = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setInputValues((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-        setResponseMessage("");
+        setFormValues((prev) => ({ ...prev, [name]: value }));
+        if (response.message) {
+            setResponse({ message: "", isError: false });
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
+
+        // Load credentials from environment variables
+        const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        if (!serviceID || !templateID || !publicKey) {
+            console.error("EmailJS credentials are not set in .env file.");
+            setResponse({ message: "❌ Configuration error. Cannot send message.", isError: true });
+            setIsSubmitting(false);
+            return;
+        }
 
         emailjs
-            .send(
-                "service_rb9nvci", // replace with your EmailJS service ID
-                "template_0hsks8c", // replace with your EmailJS template ID
-                {
-                    from_name: inputValues.name,
-                    from_email: inputValues.email,
-                    message: inputValues.message,
-                },
-                "8TtrUeFN5ZHp7T8c-" // replace with your EmailJS public key
-            )
+            .send(serviceID, templateID, {
+                from_name: formValues.name,
+                from_email: formValues.email,
+                message: formValues.message,
+            }, publicKey)
             .then(
                 () => {
-                    setResponseMessage("✅ Your message has been sent successfully!");
-                    setInputValues({ name: "", email: "", message: "" });
+                    setResponse({ message: "✅ Your message has been sent successfully!", isError: false });
+                    setFormValues({ name: "", email: "", message: "" });
                 },
                 (error) => {
-                    setResponseMessage("❌ Failed to send message. Please try again.");
+                    setResponse({ message: "❌ Failed to send message. Please try again.", isError: true });
                     console.error("EmailJS Error:", error);
                 }
-            );
+            )
+            .finally(() => {
+                setIsSubmitting(false);
+            });
     };
 
     return (
-        <section id="contact" className="py-16 bg-gradient-to-b from-gray-900 to-black">
+        <section id="contact" className="py-20 mt-20"> {/* Removed black background gradient here */}
             <div className="px-4 md:py-10 md:w-2/3 mx-auto">
-                {/* Title */}
-                <h2 className="text-4xl font-bold text-center mb-10 text-glow-primary">
-                    Contact Me
-                </h2>
 
-                {/* Contact Form */}
-                <form
-                    id="contactForm"
-                    className="bg-gray-800 shadow-lg rounded-xl p-6"
-                    onSubmit={handleSubmit}
-                >
-                    <div className="mb-4">
-                        <label
-                            htmlFor="name"
-                            className="block text-sm font-medium text-gray-200"
-                        >
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            name="name"
-                            onChange={handleInputValues}
-                            value={inputValues.name}
-                            className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500"
-                            placeholder="Your Name"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-200"
-                        >
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            onChange={handleInputValues}
-                            value={inputValues.email}
-                            className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500"
-                            placeholder="Your Email"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="message"
-                            className="block text-sm font-medium text-gray-200"
-                        >
-                            Message
-                        </label>
-                        <textarea
-                            name="message"
-                            onChange={handleInputValues}
-                            value={inputValues.message}
-                            className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500"
-                            placeholder="Your Message"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </div>
+                <h2 className="text-4xl font-bold text-center mb-10 text-orange-500">Contact Me</h2>{/* Changed color here with text-glow class */}
 
-                    {/* Submit Button */}
-                    <button
-                        type="submit"
-                        className="w-full py-2 px-4 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 transition text-white font-semibold shadow-lg"
-                    >
-                        Send Message
+                <form id="contactForm" className="bg-black shadow-2xl rounded-xl p-6" onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-200">Name</label>
+                        <input type="text" name="name" onChange={handleInputChange} value={formValues.name} className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Your Name" required />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-200">Email</label>
+                        <input type="email" name="email" onChange={handleInputChange} value={formValues.email} className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Your Email" required />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="message" className="block text-sm font-medium text-gray-200">Message</label>
+                        <textarea name="message" onChange={handleInputChange} value={formValues.message} className="mt-1 block w-full px-4 py-2 bg-gray-900 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Your Message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" disabled={isSubmitting} className="w-full py-2.5 px-4 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 transition text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                        {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
-
-                    {responseMessage && (
-                        <p
-                            id="responseMessage"
-                            className="text-center mt-4 text-sm text-green-400"
-                        >
-                            {responseMessage}
+                    {response.message && (
+                        <p className={`text-center mt-4 text-sm ${response.isError ? 'text-red-400' : 'text-green-400'}`}>
+                            {response.message}
                         </p>
                     )}
                 </form>
 
-                {/* Social Icons */}
                 <ul className="flex justify-center gap-10 mt-10">
-  <li>
-    <a
-      href="https://github.com/Natarajan-Gothandaraman"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="icon-animated icon-github"
-    >
-      <GitHubIcon style={{ fontSize: "2.8rem" }} />
-    </a>
-  </li>
-  <li>
-    <a
-      href="https://www.linkedin.com/in/natarajangothandaraman/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="icon-animated icon-linkedin"
-    >
-      <LinkedInIcon style={{ fontSize: "2.8rem" }} />
-    </a>
-  </li>
-  <li>
-    <a
-      href="https://www.instagram.com/itz_mee_natraj//"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="icon-animated icon-instagram"
-    >
-      <InstagramIcon style={{ fontSize: "2.8rem" }} />
-    </a>
-  </li>
-</ul>
-
+                    <li><a href="https://github.com/Natarajan-Gothandaraman" target="_blank" rel="noopener noreferrer" className="icon-animated icon-github" aria-label="GitHub Profile"><GitHubIcon style={{ fontSize: "2.8rem" }} /></a></li>
+                    <li><a href="https://www.linkedin.com/in/natarajangothandaraman/" target="_blank" rel="noopener noreferrer" className="icon-animated icon-linkedin" aria-label="LinkedIn Profile"><LinkedInIcon style={{ fontSize: "2.8rem" }} /></a></li>
+                    <li><a href="https://www.instagram.com/itz_mee_natraj/" target="_blank" rel="noopener noreferrer" className="icon-animated icon-instagram" aria-label="Instagram Profile"><InstagramIcon style={{ fontSize: "2.8rem" }} /></a></li>
+                </ul>
             </div>
         </section>
     );

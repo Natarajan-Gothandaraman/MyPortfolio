@@ -4,22 +4,28 @@
 
 html {
   scroll-behavior: smooth;
-  font-family: "Roboto", serif;
+  font-family: "Roboto", sans-serif; /* Corrected fallback font */
   font-optical-sizing: auto;
 }
 body {
   min-height: 100vh;
   width: 100%;
   color: #e2e8f0;
+  background-color: #000000; /* Added for solid black background */
 }
-/* Inner content container (card-like layer) */
+
+/* Consolidated inner content container style */
 .inner-layer {
-  background: linear-gradient(180deg, #0f172a, #1e293b); /* dark gradient inside */
-  border-radius: 12px;
-  padding: 10rem;
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  border-radius: 20px;
+  padding: 2rem;
   margin: 1rem auto;
   max-width: 1200px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  /* Better shadow (multi-layer for depth) */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
 }
 
 .home-page-buttons {
@@ -44,48 +50,25 @@ nav a.button-active {
   position: absolute;
   height: 100%;
   width: 100%;
+  /* Simplified gradient */
   background-image: conic-gradient(
+    #00ffff,
     #161b1e,
     #00ffff,
     #161b1e,
-    #161b1e,
-    #00ffff,
-    #161b1e,
-    #161b1e,
-    #00ffff,
-    #161b1e,
-    #161b1e,
-    #00ffff,
-    #161b1e,
-    #161b1e,
-    #00ffff,
-    #161b1e,
-    #161b1e
+    #00ffff
   );
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -50%); /* Use transform, not individual properties */
   z-index: -1;
   padding: 15px;
   border-radius: 50%;
 }
-.inner-layer {
-  background: linear-gradient(180deg, #0f172a, #1e293b);
-  border-radius: 20px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 1200px;
-
-  /* Better shadow (multi-layer for depth) */
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.3),
-    0 8px 20px rgba(0, 0, 0, 0.4),
-    inset 0 0 8px rgba(255, 255, 255, 0.05);
-}
-
 .home-user-image::after {
   animation: spin 20s linear infinite reverse, pulseRing 20s ease-in-out infinite;
 }
+
 .home-user-image::before {
   opacity: 0.5;
   animation: spin 10s linear infinite, pulseRing 20s ease-in-out infinite;
@@ -94,28 +77,26 @@ nav a.button-active {
 /* Rotation */
 @keyframes spin {
   from {
-    rotate: 0deg;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   to {
-    rotate: 360deg;
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-/* Pulse scaling */
+/* Pulse scaling - FIX: Combine translate and scale to prevent jump */
 @keyframes pulseRing {
   0%, 100% {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    transform: scale(1.15);
+    transform: translate(-50%, -50%) scale(1.15);
   }
 }
 
 /* ===================== */
 /* TEXT EFFECT UTILITIES */
 /* ===================== */
-
-/* Gradient text (multi-color heading) */
 .gradient-text {
   background: linear-gradient(to right, #06b6d4, #3b82f6, #a855f7);
   -webkit-background-clip: text;
@@ -124,19 +105,16 @@ nav a.button-active {
   color: transparent;
 }
 
-/* Adaptive text that inverts vs background */
 .adaptive-text {
   color: white;
   mix-blend-mode: difference;
 }
 
-/* Cyan glowing text */
 .text-glow {
   color: #00ffff;
   text-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff55, 0 0 24px #00ffff33;
 }
 
-/* Orange glowing text */
 .text-glow-orange {
   color: #f97316;
   text-shadow: 0 0 6px #f97316, 0 0 12px #f9731655, 0 0 24px #f9731633;
@@ -148,32 +126,19 @@ nav a.button-active {
 .icon-animated {
   transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
   display: inline-block;
-  color: #e2e8f0; /* default gray */
+  color: #e2e8f0;
 }
 
-/* Hover animation */
 .icon-animated:hover {
   transform: scale(1.3) translateY(-5px);
   animation: bounce 0.6s ease;
   text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 24px currentColor;
 }
 
-/* GitHub specific hover color */
-.icon-github:hover {
-  color: #6e5494; /* GitHub purple */
-}
+.icon-github:hover { color: #6e5494; }
+.icon-linkedin:hover { color: #0a66c2; }
+.icon-instagram:hover { color: #e1306c; }
 
-/* LinkedIn specific hover color */
-.icon-linkedin:hover {
-  color: #0a66c2; /* LinkedIn blue */
-}
-
-/* Instagram specific hover color */
-.icon-instagram:hover {
-  color: #e1306c; /* Instagram pink */
-}
-
-/* Bounce effect */
 @keyframes bounce {
   0%, 100% {
     transform: scale(1.3) translateY(-5px);
@@ -182,4 +147,3 @@ nav a.button-active {
     transform: scale(1.5) translateY(-12px);
   }
 }
-

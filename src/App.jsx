@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"; // Import useRef
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -6,125 +6,122 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import Home from "./Components/Home";
-import About from "./Components/About";
-import Projects from "./Components/Projects";
-import Achivements from "./Components/Achivements";
-import Contact from "./Components/Contact";
+import Home from "./components/Home";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Experience from "./components/Experience";
+import Achievements from "./components/Achievements";
+import Contact from "./components/Contact";
+
+const navItems = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Contact", href: "#contact" },
+];
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("#home");
+  const scrollContainerRef = useRef(null); // Create a ref for the scrollable container
+
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
+    const container = scrollContainerRef.current; // Get the container element
 
     const handleScroll = () => {
-      if (window.scrollY > 45) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-
       let currentSectionId = "";
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 50 && rect.bottom >= 50) {
-          currentSectionId = section.getAttribute("id");
+      navItems.forEach((item) => {
+        // Find sections within the scrolling container
+        const section = container.querySelector(item.href);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          
+          // Check if section is near the top of the container
+          if (rect.top - containerRect.top < 150 && rect.bottom - containerRect.top > 150) {
+            currentSectionId = item.href;
+          }
         }
       });
 
-      navLinks.forEach((link) => {
-        if (link.getAttribute("href").substring(1) === currentSectionId) {
-          link.classList.add("button-active");
-        } else {
-          link.classList.remove("button-active");
-        }
-      });
+      if (currentSectionId) {
+        setActiveLink(currentSectionId);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Attach the event listener to the container, not the window
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+    }
+    
+    // Cleanup function
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
     };
-  }, []);
+  }, []); // Empty dependency array means this runs once on mount
 
   const DrawerList = (
     <Box sx={{ width: 250 }} onClick={toggleDrawer(false)}>
       <List className="bg-[#161b1e] text-white h-screen overflow-auto">
-        {["Home", "About", "Projects", "Achivements", "Contact"].map(
-          (text, index) => (
-            <ListItem key={index} disablePadding>
-              <a
-                href={`#${text.toLowerCase()}`}
-                className="relative group p-1 mx-auto my-1"
-              >
-                {text}
-                <span className="absolute left-1/2 bottom-0 h-0.5 rounded w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full"></span>
-              </a>
-            </ListItem>
-          )
-        )}
+        {navItems.map((item) => (
+          <ListItem key={item.label} disablePadding>
+            <a
+              href={item.href}
+              className={`relative group p-2 mx-auto my-1 ${activeLink === item.href ? "text-orange-500 font-bold" : ""
+                }`}
+            >
+              {item.label}
+              <span className="absolute left-1/2 bottom-0 h-0.5 rounded w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full"></span>
+            </a>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
 
   return (
     <>
-      {/* Header/Navbar */}
       <header
-        className={`fixed top-6 left-0 text-white p-3.1 lg:px-0 z-10 w-full transition-colors duration-100 ${
-          isScrolled ? "bg-[#4949495c]" : "bg-transparent"
-        }`}
+        className="fixed top-6 left-1/2 -translate-x-1/2 z-10 
+                   bg-black/40 backdrop-blur-sm border border-white/20 
+                   rounded-full shadow-lg"
       >
-        <nav className="flex justify-between items-center lg:w-3/4 mx-auto">
-          
-          {/* Left Side - Profile Image + Name */}
-          {/* Navbar Left Side - Profile Image + Name */}
-<div className="flex items-center space-x-3">
-  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-black-500">
-    <img
-      src="Public/assets/userimage.jpg"
-      alt="Profile"
-      className="w-full h-full object-cover"
-    />
-  </div>
-  <h2 className="text-2xl font-bold text-orange-500">Natarajan</h2>
-</div>
-
-
-          {/* Desktop Menu */}
-          <div className="space-x-6 hidden md:flex">
-            <a href="#home" className="relative group p-1">
-              Home
-              <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
-            </a>
-            <a href="#about" className="relative group p-1">
-              About
-              <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
-            </a>
-            <a href="#projects" className="relative group p-1">
-              Projects
-              <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-600 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
-            </a>
-            <a href="#achivements" className="relative group p-1">
-              Achievements
-              <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
-            </a>
-            <a href="#contact" className="relative group p-1">
-              Contact
-              <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
-            </a>
+        <nav className="flex items-center px-6 py-2">
+          <div className="flex items-center space-x-3 mr-20">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-500">
+              <img
+                src="/assets/userimage.jpg"
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+             <h2 className="hidden md:block text-2xl font-bold text-orange-500">Natarajan</h2>
           </div>
 
-          {/* Mobile Drawer Menu */}
+          <div className="space-x-6 hidden md:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`relative group p-1 text-gray-300 hover:text-white transition-colors
+                           ${activeLink === item.href ? "button-active" : ""}`}
+              >
+                {item.label}
+                <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
+              </a>
+            ))}
+          </div>
+
           <div className="md:hidden">
-            <Button onClick={toggleDrawer(true)}>
+            <Button onClick={toggleDrawer(true)} aria-label="Open menu">
               <MenuIcon className="text-white" />
             </Button>
             <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
@@ -134,16 +131,20 @@ function App() {
         </nav>
       </header>
 
-      {/* Outer + Inner Layer */}
-      <div className="relative bg-horizontal min-h-screen text-slate-100 antialiased">
-        <div className="inner-layer">
-          <Home />
-          <About />
-          <Projects />
-          <Achivements />
-          <Contact />
+      {/* The main tag helps structure the page */}
+      <main>
+        {/* Attach the ref to the inner-layer div */}
+        <div className="inner-layer" ref={scrollContainerRef}>
+          <div className="space-y-28 md:space-y-36">
+            <Home />
+            <About />
+            <Projects />
+            <Experience />
+            <Achievements />
+            <Contact />
+          </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
