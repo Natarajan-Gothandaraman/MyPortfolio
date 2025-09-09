@@ -7,7 +7,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 const projectsData = [
   {
     "name": "Employee Management System",
-    "image": "public/assets/project1.png",
+    "image": "Public/assets/Project1.PNG",
     "description": "A full-stack CRUD application with a React frontend and Spring Boot backend for managing employee data.",
     "features": [
       "Full-stack CRUD functionality",
