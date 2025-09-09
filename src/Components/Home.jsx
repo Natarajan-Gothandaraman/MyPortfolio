@@ -100,7 +100,7 @@ export default function Home() {
           {/* New div for image and overlay */}
           <div className="relative w-full h-full rounded-full overflow-hidden z-10">
             <img
-              src="/assets/userimage.jpg"
+              src="MyPortfolio/public/assets/userimage.jpg"
               alt="Natarajan Gothandaraman"
               className="w-full h-full object-cover"
             />
