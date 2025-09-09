@@ -4,6 +4,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Tooltip from "@mui/material/Tooltip";
+import userimage from "../assets/userimage.jpg";
 
 export default function Home() {
   const typedStrings = [
@@ -100,7 +101,7 @@ export default function Home() {
           {/* New div for image and overlay */}
           <div className="relative w-full h-full rounded-full overflow-hidden z-10">
             <img
-              src="/userimage.jpg"
+              src={userimage}
               alt="Natarajan Gothandaraman"
               className="w-full h-full object-cover"
             />
