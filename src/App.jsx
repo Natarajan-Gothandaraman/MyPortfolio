@@ -6,12 +6,12 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import Home from "./components/Home";
-import About from "./components/About";
-import Projects from "./components/Projects";
-import Experience from "./components/Experience";
-import Achievements from "./components/Achievements";
-import Contact from "./components/Contact";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
+import Projects from "./components/Projects.jsx";
+import Experience from "./components/Experience.jsx";
+import Achievements from "./components/Achievements.jsx";
+import Contact from "./components/Contact.jsx";
 
 const navItems = [
   { label: "Home", href: "#home" },
