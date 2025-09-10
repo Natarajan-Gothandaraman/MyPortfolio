@@ -7,7 +7,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 const projectsData = [
   {
     "name": "Employee Management System",
-    "image": "/Project1.PNG",
+    "image": "https://res.cloudinary.com/dybicylgj/image/upload/v1757476630/Project1_xgdp3p.png",
     "description": "A full-stack CRUD application with a React frontend and Spring Boot backend for managing employee data.",
     "features": [
       "Full-stack CRUD functionality",
@@ -21,7 +21,7 @@ const projectsData = [
   },
   {
     "name": "Searchy – YouTube Search",
-    "image": "/public/assets/project2.png",
+    "image": "https://res.cloudinary.com/dybicylgj/image/upload/v1757476630/Project2_ffnxwp.png",
     "description": "A modern, distraction-free YouTube video search app with a draggable modal viewer and search history.",
     "features": [
       "Modern, distraction-free UI",
@@ -35,7 +35,7 @@ const projectsData = [
   },
   {
     "name": "E-Commerce Website (Zindra)",
-    "image": "/public/assets/Project3.png",
+    "image": "https://res.cloudinary.com/dybicylgj/image/upload/v1757476631/Project3_oex1qh.png",
     "description": "A responsive e-commerce website with cart functionality, implemented with clean HTML, CSS, and JavaScript.",
     "features": [
       "Responsive e-commerce design",
