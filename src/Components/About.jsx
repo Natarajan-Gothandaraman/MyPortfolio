@@ -13,7 +13,7 @@ export default function About() {
                         Hello! I'm Natarajan Gothandaraman, a Full-Stack Developer with a passion for building responsive and user-friendly web applications. I specialize in a range of technologies including React, Node.js, Spring Boot, and MySQL.
                     </p>
                     <p className="text-slate-300">
-                        I have a strong foundation in Java and Data Structures & Algorithms, demonstrated by solving over 500 problems on LeetCode, and I thrive on tackling complex challenges to create efficient, scalable solutions.
+                        I have a strong foundation in Java and Data Structures & Algorithms, demonstrated by solving over 300+ Problems on LeetCode, and I thrive on tackling complex challenges to create efficient, scalable solutions.
                     </p>
                 </div>
             </div>
