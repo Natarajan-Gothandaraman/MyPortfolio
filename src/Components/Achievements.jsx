@@ -5,7 +5,7 @@ const achievementsData = [
     title: "LeetCode Problem Solving",
     description: "Solved 500+ problems on LeetCode, mastering techniques from brute force to optimal solutions.",
     date: "Ongoing",
-    link: "https://leetcode.com/u/7Mw5QW9lz9/",
+    link: "https://leetcode.com/u/natarajandeveloper/",
   },
   {
     title: "Full Stack Java Development and SQL",
