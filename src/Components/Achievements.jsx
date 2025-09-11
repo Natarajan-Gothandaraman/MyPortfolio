@@ -3,7 +3,7 @@ import React from 'react';
 const achievementsData = [
   {
     title: "LeetCode Problem Solving",
-    description: "Solved 500+ problems on LeetCode, mastering techniques from brute force to optimal solutions.",
+    description: "Solved 300+ problems on LeetCode, mastering techniques from brute force to optimal solutions.",
     date: "Ongoing",
     link: "https://leetcode.com/u/natarajandeveloper/",
   },
