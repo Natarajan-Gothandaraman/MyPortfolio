@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react"; // Import useRef
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -12,7 +12,6 @@ import Projects from "./Components/Projects.jsx";
 import Experience from "./Components/Experience.jsx";
 import Achievements from "./Components/Achievements.jsx";
 import Contact from "./Components/Contact.jsx";
-
 const navItems = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
@@ -25,66 +24,57 @@ const navItems = [
 function App() {
   const [open, setOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("#home");
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef(null); // Create a ref for the scrollable container
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  // CHANGE 1: Create a single handler for link clicks
-  const handleLinkClick = (href) => {
-    setActiveLink(href); // Immediately set active state
-    setOpen(false);      // Always close the drawer after a click
-  };
-
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
+    const container = scrollContainerRef.current; // Get the container element
 
     const handleScroll = () => {
       let currentSectionId = "";
-      const containerRect = container.getBoundingClientRect();
-      const offset = 150; // The "line" where we check for the active section
-
       navItems.forEach((item) => {
+        // Find sections within the scrolling container
         const section = container.querySelector(item.href);
         if (section) {
           const rect = section.getBoundingClientRect();
-          // Check if the section's top is above our offset line and its bottom is below it
-          if (rect.top - containerRect.top < offset && rect.bottom - containerRect.top > offset) {
+          const containerRect = container.getBoundingClientRect();
+          
+          // Check if section is near the top of the container
+          if (rect.top - containerRect.top < 150 && rect.bottom - containerRect.top > 150) {
             currentSectionId = item.href;
           }
         }
       });
-      
-      // Also, handle the case where you scroll to the very top or bottom
-      if (container.scrollTop === 0) {
-        currentSectionId = "#home";
-      }
-      
-      if (currentSectionId && currentSectionId !== activeLink) {
+
+      if (currentSectionId) {
         setActiveLink(currentSectionId);
       }
     };
 
-    container.addEventListener("scroll", handleScroll);
-    handleScroll(); // Call once on mount to set initial state
-
+    // Attach the event listener to the container, not the window
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+    }
+    
+    // Cleanup function
     return () => {
-      container.removeEventListener("scroll", handleScroll);
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
     };
-  }, [activeLink]); // Re-run if activeLink changes programmatically if needed, or keep empty `[]`
+  }, []); // Empty dependency array means this runs once on mount
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation">
+    <Box sx={{ width: 250 }} onClick={toggleDrawer(false)}>
       <List className="bg-[#161b1e] text-white h-screen overflow-auto">
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
-            {/* CHANGE 2: Add the onClick handler to the mobile link */}
             <a
               href={item.href}
-              onClick={() => handleLinkClick(item.href)}
-              className={`relative group p-2 mx-auto my-1 w-full text-center ${activeLink === item.href ? "text-orange-500 font-bold" : ""
+              className={`relative group p-2 mx-auto my-1 ${activeLink === item.href ? "text-orange-500 font-bold" : ""
                 }`}
             >
               {item.label}
@@ -112,18 +102,16 @@ function App() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h2 className="hidden md:block text-2xl font-bold text-orange-500">Natarajan</h2>
+             <h2 className="hidden md:block text-2xl font-bold text-orange-500">Natarajan</h2>
           </div>
 
           <div className="space-x-6 hidden md:flex">
             {navItems.map((item) => (
-              // CHANGE 3: Add the onClick handler to the desktop link
               <a
                 key={item.label}
                 href={item.href}
-                onClick={() => handleLinkClick(item.href)}
                 className={`relative group p-1 text-gray-300 hover:text-white transition-colors
-                           ${activeLink === item.href ? "text-orange-500 font-semibold" : ""}`}
+                           ${activeLink === item.href ? "button-active" : ""}`}
               >
                 {item.label}
                 <span className="absolute left-1/2 bottom-0 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:left-0 group-hover:w-full rounded"></span>
@@ -141,8 +129,10 @@ function App() {
           </div>
         </nav>
       </header>
-      
+
+      {/* The main tag helps structure the page */}
       <main>
+        {/* Attach the ref to the inner-layer div */}
         <div className="inner-layer" ref={scrollContainerRef}>
           <div className="space-y-28 md:space-y-36">
             <Home />
