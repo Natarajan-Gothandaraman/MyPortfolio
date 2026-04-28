@@ -40,7 +40,7 @@ export default function Home() {
         </p>
 
         <a
-          href="https://drive.google.com/file/d/1JzTcfs5JyPMnWleGoh7s12xIVbXoHiLz/view?usp=drivesdk"
+          href="https://drive.google.com/file/d/1ZqM-M9815tUqFiNRcW6KgF1kd-tGVBnS/view?usp=drivesdk"
           target="_blank"
           rel="noopener noreferrer"
         >
