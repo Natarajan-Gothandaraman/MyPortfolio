@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  font-family: "Roboto", sans-serif; /* Corrected fallback font */
+  font-optical-sizing: auto;
+}
+body {
+  min-height: 100vh;
+  width: 100%;
+  color: #e2e8f0;
+  background-color: #000000; /* Added for solid black background */
+}
+
+/* Consolidated inner content container style */
+.inner-layer {
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 1200px;
+  /* Better shadow (multi-layer for depth) */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.home-page-buttons {
+  box-shadow: inset 0px -1px 3px 2px aqua;
+}
+
+nav a.button-active {
+  color: rgb(249 115 22);
+  font-weight: bold;
+}
+
+/* ============================== */
+/* Profile image with gradient ring */
+/* ============================== */
+.home-user-image {
+  position: relative;
+  display: inline-block;
+}
+.home-user-image::after,
+.home-user-image::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /* Simplified gradient */
+  background-image: conic-gradient(
+    #00ffff,
+    #161b1e,
+    #00ffff,
+    #161b1e,
+    #00ffff
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Use transform, not individual properties */
+  z-index: -1;
+  padding: 15px;
+  border-radius: 50%;
+}
+.home-user-image::after {
+  animation: spin 20s linear infinite reverse, pulseRing 20s ease-in-out infinite;
+}
+
+.home-user-image::before {
+  opacity: 0.5;
+  animation: spin 10s linear infinite, pulseRing 20s ease-in-out infinite;
+}
+
+/* Rotation */
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Pulse scaling - FIX: Combine translate and scale to prevent jump */
+@keyframes pulseRing {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+/* ===================== */
+/* TEXT EFFECT UTILITIES */
+/* ===================== */
+.gradient-text {
+  background: linear-gradient(to right, #06b6d4, #3b82f6, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.adaptive-text {
+  color: white;
+  mix-blend-mode: difference;
+}
+
+.text-glow {
+  color: #00ffff;
+  text-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff55, 0 0 24px #00ffff33;
+}
+
+.text-glow-orange {
+  color: #f97316;
+  text-shadow: 0 0 6px #f97316, 0 0 12px #f9731655, 0 0 24px #f9731633;
+}
+
+/* ===================== */
+/* SOCIAL ICON ANIMATIONS */
+/* ===================== */
+.icon-animated {
+  transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+  display: inline-block;
+  color: #e2e8f0;
+}
+
+.icon-animated:hover {
+  transform: scale(1.3) translateY(-5px);
+  animation: bounce 0.6s ease;
+  text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 24px currentColor;
+}
+
+.icon-github:hover { color: #6e5494; }
+.icon-linkedin:hover { color: #0a66c2; }
+.icon-instagram:hover { color: #e1306c; }
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1.3) translateY(-5px);
+  }
+  50% {
+    transform: scale(1.5) translateY(-12px);
+  }
+}
