@@ -49,7 +49,7 @@ const projectsData = [
   },
   {
     "name": "Shanthi Foods - Restaurant Billing POS",
-    "image": "Public/shanthi.jpg",
+    "image": "https://res.cloudinary.com/drksao5tq/image/upload/v1780311980/shanthi_oca3fa.jpg",
     "description": "Billing website for Shanthi Foods with menu CRUD, click-to-cart billing, UPI QR payment, bill printing, and date-wise sales reports.",
     "features": [
       "Billing (POS) with click-to-cart",
@@ -65,7 +65,7 @@ const projectsData = [
   },
   {
     "name": "Student Management System",
-    "image": "public/student.png",
+    "image": "https://res.cloudinary.com/drksao5tq/image/upload/v1780311981/student_oim7zd.png",
     "description": "A full-stack student management system built with Spring Boot, MySQL, and React for managing student records with comprehensive CRUD operations.",
     "features": [
       "Student CRUD Operations",
